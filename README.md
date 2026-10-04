@@ -3,9 +3,8 @@ Backend webapp Booking clone build with Python 3.14.7 and Fastapi 0.141.1
 ---
 ## Setup
 1. Clone the repository:
-git clone 
 
-`https://github.com/Gug-er/bookvar.git`
+`git clone "https://github.com/Gug-er/bookvar.git"`
 
 2. Create and activate a virtual environment:
 

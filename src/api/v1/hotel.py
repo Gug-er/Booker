@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Query
 
+from src.api.deps.pagination import PaginationDep
 from src.schemas.hotel import HotelSchema, HotelAdd, HotelPatch
 
 router = APIRouter(prefix="/hotel", tags=["hotel"])
@@ -46,5 +47,9 @@ async def add_bulk_hotel(
 
 
 @router.get("")
-async def get_list_of_hotels(page: int, per_page: int) -> list[HotelSchema]:
-    ... 
+async def get_hotels(
+    pagination: PaginationDep,
+    id: int | None = Query(None, description="Hotel id"),
+    name: str | None = Query(None, description="Hotel name"),
+) -> list[HotelSchema]:
+    ...

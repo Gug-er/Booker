@@ -27,10 +27,9 @@ async def add_hotel(
     )
 ) -> None:
     async with async_session_maker() as session:
-        add_hotel_stmt = insert(HotelModel).values(**hotel_data.model_dump())
-        await session.execute(add_hotel_stmt)
+        hotel = await HotelRepository(session).add(hotel_data)
         await session.commit()
-    #db.hotel.add(hotel_data)
+    return {"status": "OK", "data": hotel}
 
 
 # @router.post("")
@@ -54,7 +53,6 @@ async def add_hotel(
 #             }
 # })
 # ) -> None:
-#     ...#db.hotel.add_bulk(hotel_data)
 
 
 @router.get("")

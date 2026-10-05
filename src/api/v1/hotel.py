@@ -32,29 +32,6 @@ async def add_hotel(
     return {"status": "OK", "data": hotel}
 
 
-# @router.post("")
-# async def add_bulk_hotel(
-#     hotel_data: list[HotelAdd] = Body(
-#         openapi_examples={
-#         "1":
-#             {
-#                 "summary": "List of hotels",
-#                 "value":[
-#                 {
-#                     "name": "Continental plaza beach resort",
-#                     "location": "Country, city",
-#                     "description": "Beautiful hotel near the red sea"
-#                 },
-#                 {
-#                     "name": "Redison blue resort",
-#                     "location": "Country, city",
-#                     "description": "Beautiful hotel on the shores of red sea"
-#                 }]
-#             }
-# })
-# ) -> None:
-
-
 @router.get("")
 async def get_hotels(
     pagination: PaginationDep,

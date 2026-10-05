@@ -1,5 +1,5 @@
 # Booker
-Backend webapp Booking clone build with Python 3.14.7 and Fastapi 0.141.1
+Backend webapp Booking clone build with Python 3.14.7 and Fastapi 0.142.2
 ---
 ## Setup
 1. Clone the repository:

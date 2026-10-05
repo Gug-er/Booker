@@ -12,7 +12,7 @@ async def add_hotel(
             "1": {"summary": "Some hotel in some city",
                   "value":{
                       "name": "Actual name of the hotel",
-                      "title": "Unique name of the hotel",
+                      "location": "Country, city",
                       "description": "It`s description"
                     }
                   }
@@ -32,12 +32,12 @@ async def add_bulk_hotel(
                 "value":[
                 {
                     "name": "Continental plaza beach resort",
-                    "title": "sas-sinai-continental-fivestar",
+                    "location": "Country, city",
                     "description": "Beautiful hotel near the red sea"
                 },
                 {
                     "name": "Redison blue resort",
-                    "title": "sas-sinai-redison-fivestar",
+                    "location": "Country, city",
                     "description": "Beautiful hotel on the shores of red sea"
                 }]
             }
@@ -51,5 +51,6 @@ async def get_hotels(
     pagination: PaginationDep,
     id: int | None = Query(None, description="Hotel id"),
     name: str | None = Query(None, description="Hotel name"),
+    lcoation: str | None = Query(None, description="Hotel location"),
 ) -> list[HotelSchema]:
     ...

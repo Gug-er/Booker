@@ -64,3 +64,21 @@ async def get_hotels(
 ) -> list[HotelSchema]:
     async with async_session_maker() as session:
         return await HotelRepository(session).get_all()
+
+
+@router.put("/{hotel_id}")
+async def edit_hotel(hotel_id: int, hotel_data: HotelPatch):
+    async with async_session_maker() as session:
+        await HotelRepository(session).edit(hotel_data, hotel_id=hotel_id)
+        await session.commit()
+
+    return {"status": "OK"}
+
+
+@router.delete("/{hotel_id}")
+async def delete_hotel(hotel_id: int):
+    async with async_session_maker() as session:
+        await HotelRepository(session).delete(hotel_id=hotel_id)
+        await session.commit()
+
+    return {"status": "OK"}

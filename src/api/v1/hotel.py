@@ -35,12 +35,18 @@ async def add_hotel(
 @router.get("")
 async def get_hotels(
     pagination: PaginationDep,
-    id: int | None = Query(None, description="Hotel id"),
     name: str | None = Query(None, description="Hotel name"),
-    lcoation: str | None = Query(None, description="Hotel location"),
+    location: str | None = Query(None, description="Hotel location"),
 ) -> list[HotelSchema]:
+    per_page = pagination.per_page or 5
+    page = pagination.page or 1
     async with async_session_maker() as session:
-        return await HotelRepository(session).get_all()
+        return await HotelRepository(session).get_all(
+            location=location, 
+            name=name, 
+            limit=per_page, 
+            offset=per_page * (page - 1)
+        )
 
 
 @router.get("/{hotel_id}")

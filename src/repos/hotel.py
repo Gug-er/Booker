@@ -15,7 +15,7 @@ class HotelRepository(BaseRepository):
             name, 
             limit, 
             offset
-    ):
+    ) -> list[HotelSchema]:
         query = select(HotelModel)
         if location:
             query = query.filter(func.lower(HotelModel.location).contains(location.strip().lower()))
@@ -28,5 +28,4 @@ class HotelRepository(BaseRepository):
         )
         result = await self.session.execute(query)
 
-        hotels = result.scalars().all()
-        return hotels
+        return [self.schema.model_validate(object, from_attributes=True) for object in result.scalars().all()]

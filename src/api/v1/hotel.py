@@ -10,7 +10,7 @@ from src.db import async_session_maker
 
 from src.repos.hotel import HotelRepository
 
-router = APIRouter(prefix="/hotel", tags=["hotel"])
+router = APIRouter(prefix="/hotels", tags=["hotels"])
 
 @router.post("")
 async def add_hotel(
@@ -32,7 +32,7 @@ async def add_hotel(
     return {"status": "OK", "data": hotel}
 
 
-@router.get("")
+@router.get("/hotels")
 async def get_hotels(
     pagination: PaginationDep,
     name: str | None = Query(None, description="Hotel name"),

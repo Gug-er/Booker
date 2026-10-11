@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Body, Response
+from fastapi import APIRouter, Body, Response, Request
 
 from src.schemas.user import UserSchema, UserAdd, UserRequestAdd, UserLogin
 from src.repos.user import UserRepository
 from src.db import async_session_maker
 from src.services.auth import AuthService
+from src.api.deps.auth import UserDep
 
 
 router = APIRouter(prefix='/auth', tags=["Authorization, authentication"])
@@ -65,3 +66,12 @@ async def login_user(
             return {"jwt_access_token": jwt_access_token}
         else:
             return {"status": "ERROR", "detail": "Invalid email or password"}
+
+
+@router.get("/me")
+async def get_me(
+    user_id: UserDep
+):
+    async with async_session_maker() as session:
+        user = await UserRepository(session).get_one_or_none(user_id=user_id)
+    return user

@@ -22,6 +22,13 @@ class RoomPatch(BaseModel):
     quantity: int
 
 
+class RoomRequestPatch(BaseModel):
+    title: str
+    description: str | None = None
+    price: int
+    quantity: int
+
+
 class RoomAdd(BaseModel):
     hotel_id: int
     title: str

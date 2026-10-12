@@ -11,6 +11,7 @@ from src.api.v1.hotel import router as hotel_router
 from src.api.v1.room import router as room_router
 
 
+
 app = FastAPI()
 
 app.include_router(auth_router)

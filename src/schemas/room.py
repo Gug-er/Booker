@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 
@@ -9,6 +9,8 @@ class RoomSchema(BaseModel):
     description: str | None = None
     price: int
     quantity: int
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class RoomPatch(BaseModel):

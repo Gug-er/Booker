@@ -7,8 +7,8 @@ from src.services.auth import AuthService
 from src.api.deps.auth import UserDep
 
 
-router = APIRouter(prefix='/auth', tags=["Authorization, authentication"])
 
+router = APIRouter(prefix='/auth', tags=["Authorization, authentication"])
 
 
 @router.post("/register")

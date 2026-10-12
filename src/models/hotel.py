@@ -4,6 +4,7 @@ from sqlalchemy import String
 from src.db import BaseModel
 
 
+
 class HotelModel(BaseModel):
     __tablename__ = "hotels"
 

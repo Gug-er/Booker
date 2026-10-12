@@ -4,6 +4,7 @@ from sqlalchemy import String, ForeignKey
 from src.db import BaseModel
 
 
+
 class RoomModel(BaseModel):
     __tablename__ = "rooms"
 

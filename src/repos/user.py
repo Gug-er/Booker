@@ -6,6 +6,7 @@ from src.models.user import UserModel
 from src.schemas.user import UserSchema, UserHashedPassword
 
 
+
 class UserRepository(BaseRepository):
     model = UserModel
     schema = UserSchema

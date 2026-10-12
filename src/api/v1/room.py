@@ -5,8 +5,8 @@ from src.repos.room import RoomRepository
 from src.schemas.room import RoomSchema, RoomAdd, RoomRequestAdd, RoomPatch
 
 
-
 router = APIRouter(prefix="/hotels", tags=["rooms"])
+
 
 
 @router.post("/{hotel_id}/rooms")
@@ -16,7 +16,7 @@ async def add_room(
         openapi_examples={
             "1": {"summary": "Add room to the database",
                   "value":{
-                      "title": "2 people"
+                      "title": "2 person"
                     }
                   }
         }
@@ -42,7 +42,7 @@ async def get_rooms(
 
 
 @router.get("/{hotel_id}/rooms/{room_id}")
-async def get_room_by_id(room_id: int):
+async def get_room_by_id(hotel_id: int, room_id: int):
     async with async_session_maker() as session:
         return await RoomRepository(session).get_one_or_none(room_id=room_id)
 

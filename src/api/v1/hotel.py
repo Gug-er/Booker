@@ -6,11 +6,13 @@ from src.models.hotel import HotelModel
 
 from src.api.deps.pagination import PaginationDep
 from src.schemas.hotel import HotelSchema, HotelAdd, HotelPatch
+from src.repos.hotel import HotelRepository
 from src.db import async_session_maker
 
-from src.repos.hotel import HotelRepository
+
 
 router = APIRouter(prefix="/hotels", tags=["hotels"])
+
 
 @router.post("")
 async def add_hotel(

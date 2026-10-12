@@ -14,9 +14,12 @@ async def add_room(
     hotel_id: int,
     room_data: RoomRequestAdd = Body(
         openapi_examples={
-            "1": {"summary": "Add room to the database",
+            "1": {"summary": "Example room",
                   "value":{
-                      "title": "2 person"
+                      "title": "2 person 1 bed",
+                      "description": "Big room for two persons with one bed",
+                      "price": "100",
+                      "quantity": "4"
                     }
                   }
         }

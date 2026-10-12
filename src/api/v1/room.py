@@ -48,7 +48,7 @@ async def get_room_by_id(hotel_id: int, room_id: int):
 
 @router.put("/{hotel_id}/rooms/{room_id}")
 async def edit_room(hotel_id: int, room_id: int, room_data: RoomRequestPatch):
-    _room_data = RoomPatch(room_id=room_id, hotel_id=hotel_id, **room_data.model_dump())
+    _room_data = RoomPatch(room_id=room_id, hotel_id=hotel_id, **room_data.model_dump(exclude_unset=True))
     async with async_session_maker() as session:
         await RoomRepository(session).edit(_room_data, room_id=room_id, hotel_id=hotel_id)
         await session.commit()

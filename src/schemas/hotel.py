@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Optional
 
 
 
@@ -6,18 +6,18 @@ class HotelSchema(BaseModel):
     hotel_id: int
     name: str
     location: str
-    description: str | None = None
+    description: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class HotelPatch(BaseModel):
-    name: str | None = None
-    location: str | None = None
-    description: str | None = None
+    name: Optional[str] = None
+    location: Optional[str] = None
+    description: Optional[str] = None
 
 
 class HotelAdd(BaseModel):
     name: str
     location: str
-    description: str | None = None
+    description: Optional[str] = None

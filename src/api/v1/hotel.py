@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Body, Query
 
+from src.schemas.hotel import HotelSchema, HotelAdd, HotelPatch
 from src.api.deps.pagination import PaginationDep
 from src.api.deps.database import DBDep
-from src.schemas.hotel import HotelSchema, HotelAdd, HotelPatch
 
 
 

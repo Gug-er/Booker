@@ -52,7 +52,7 @@ async def get_room_by_id(
 
 @router.put("/{hotel_id}/rooms/{room_id}")
 async def edit_room(
-    db: DBdep,
+    db: DBDep,
     hotel_id: int, 
     room_id: int, 
     room_data: RoomRequestPatch

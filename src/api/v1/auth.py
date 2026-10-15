@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Body, Response, Request
 
 from src.schemas.user import UserSchema, UserAdd, UserRequestAdd, UserLogin
-from src.repos.user import UserRepository
-from src.db import async_session_maker
 from src.services.auth import AuthService
 from src.api.deps.auth import UserDep
+from src.api.deps.database import DBDep
 
 
 
@@ -13,6 +12,7 @@ router = APIRouter(prefix='/auth', tags=["Authorization, authentication"])
 
 @router.post("/register")
 async def register_user(
+    db: DBDep,
     data: UserRequestAdd = Body(
         openapi_examples={
             "1": {"summary": "Example",
@@ -33,15 +33,15 @@ async def register_user(
         first_name=data.first_name,
         last_name=data.last_name
         )
-    async with async_session_maker() as session: 
-        user = await UserRepository(session).add(_data)
-        await session.commit()
+    user = await db.user.add(_data)
+    await db.commit()
 
     return {"status": "OK", "data": user}
 
 
 @router.post("/login")
 async def login_user(
+    db: DBDep,
     response: Response,
     data: UserLogin = Body(
         openapi_examples={
@@ -54,8 +54,7 @@ async def login_user(
         }
     )
 ):
-    async with async_session_maker() as session:
-        user = await UserRepository(session).get_user_by_email(data.email)
+    user = await db.user.get_user_by_email(data.email)
 
     if not user:
         return {"status": "ERROR", "detail": "Invalid email or password"}
@@ -70,10 +69,10 @@ async def login_user(
 
 @router.get("/me")
 async def get_me(
-    user_id: UserDep
+    user_id: UserDep,
+    db: DBDep
 ):
-    async with async_session_maker() as session:
-        user = await UserRepository(session).get_one_or_none(user_id=user_id)
+    user = await db.user.get_one_or_none(user_id=user_id)
     return user
 
 

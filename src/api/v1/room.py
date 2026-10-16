@@ -26,7 +26,7 @@ async def add_room(
     )
 ) -> None:
     _room_data = RoomAdd(hotel_id=hotel_id, **room_data.model_dump())
-    room = await db.room.add(room_data)
+    room = await db.room.add(_room_data)
     await db.commit()
     return {"status": "OK", "data": room}
 

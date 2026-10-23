@@ -25,7 +25,7 @@ async def add_hotel(
     )
 ) -> None:
     hotel = await db.hotel.add(hotel_data)
-    await db.commit.commit()
+    await db.commit()
     return {"status": "OK", "data": hotel}
 
 

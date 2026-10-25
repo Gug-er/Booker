@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body, Query
+from datetime import date
 
 from src.schemas.room import RoomSchema, RoomAdd, RoomRequestAdd, RoomRequestPatch, RoomPatch
 from src.api.deps.database import DBDep
@@ -34,10 +35,20 @@ async def add_room(
 @router.get("/{hotel_id}/rooms")
 async def get_rooms(
     db: DBDep,
-    hotel_id: int
-) -> list[RoomSchema]:
-    return await db.room.get_filtered(
-        hotel_id=hotel_id
+    hotel_id: int,
+    date_from: date = Query(
+        examples={"2026-11-20": {
+            "summary": "Example date from", 
+            "value": "2026-11-20"}}),
+    date_to: date = Query(
+        examples={"2026-11-30": {
+            "summary": "Example date to", 
+            "value": "2026-11-30"}}),
+):
+    return await db.room.get_filtered_by_time(
+        hotel_id=hotel_id,
+        date_from=date_from,
+        date_to=date_to
     )
 
 

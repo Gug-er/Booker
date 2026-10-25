@@ -37,11 +37,11 @@ async def get_rooms(
     db: DBDep,
     hotel_id: int,
     date_from: date = Query(
-        examples={"2026-11-20": {
+        openapi_examples={"2026-11-20": {
             "summary": "Example date from", 
             "value": "2026-11-20"}}),
     date_to: date = Query(
-        examples={"2026-11-30": {
+        openapi_examples={"2026-11-30": {
             "summary": "Example date to", 
             "value": "2026-11-30"}}),
 ):

@@ -8,18 +8,18 @@ from src.models.booking import BookingModel
 
 
 def room_ids_for_booking(
-        hotel_id: int,
         date_from: date,
         date_to: date,
+        hotel_id: int | None = None,
 ):
     rooms_count = (
-                select(RoomModel.room_id, func.count("*").label("rooms_booked"))
-                .select_from(RoomModel)
+                select(BookingModel.room_id, func.count().label("rooms_booked"))
+                .select_from(BookingModel)
                 .filter(
-                    BookingModel.date_from <= date_to,
-                    BookingModel.date_to >= date_from, 
+                    BookingModel.date_from < date_to,
+                    BookingModel.date_to > date_from, 
                 )
-                .group_by(RoomModel.room_id)
+                .group_by(BookingModel.room_id)
                 .cte("rooms_count")
             )
     
@@ -36,9 +36,16 @@ def room_ids_for_booking(
     rooms_by_hotel_id = (
         select(RoomModel.room_id)
         .select_from(RoomModel)
-        .filter_by(hotel_id=hotel_id)
-        .subquery(name="rooms_by_hotel_id")
     ) 
+    
+    if hotel_id is not None:
+        rooms_by_hotel_id = (
+            rooms_by_hotel_id.filter_by(hotel_id=hotel_id) 
+            ) 
+        
+    rooms_by_hotel_id = (
+               rooms_by_hotel_id.subquery(name="rooms_by_hotel_id")
+            ) 
 
     available_room_ids = (
         select(rooms_available.c.room_id)

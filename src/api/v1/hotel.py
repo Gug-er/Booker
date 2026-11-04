@@ -1,3 +1,5 @@
+from datetime import date
+
 from fastapi import APIRouter, Body, Query
 
 from src.schemas.hotel import HotelSchema, HotelAdd, HotelPatch
@@ -23,23 +25,27 @@ async def add_hotel(
                   }
         }
     )
-) -> None:
+):
     hotel = await db.hotel.add(hotel_data)
     await db.commit()
     return {"status": "OK", "data": hotel}
 
 
-@router.get("/hotels")
+@router.get("")
 async def get_hotels(
     db: DBDep,
     pagination: PaginationDep,
     name: str | None = Query(None, description="Hotel name"),
     location: str | None = Query(None, description="Hotel location"),
+    date_from: date | None = Query(example="2026-11-20", description="Date from"),
+    date_to: date | None = Query(example="2026-11-30", description="Date to"),
 ) -> list[HotelSchema]:
     per_page = pagination.per_page or 5
     page = pagination.page or 1
-    return await db.hotel.get_all(
-        location=location, 
+    return await db.hotel.get_filtered_by_time(
+        date_from=date_from,
+        date_to=date_to,
+        location=location,
         name=name, 
         limit=per_page, 
         offset=per_page * (page - 1)
@@ -60,7 +66,7 @@ async def edit_hotel(
     db: DBDep,
     hotel_id: int, 
     hotel_data: HotelPatch
-) -> None:
+):
     await db.hotel.edit(hotel_data, hotel_id=hotel_id)
     await db.commit()
 

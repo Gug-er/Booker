@@ -25,17 +25,16 @@ async def add_room(
                   }
         }
     )
-) -> None:
+):
     _room_data = RoomAdd(hotel_id=hotel_id, **room_data.model_dump())
     room = await db.room.add(_room_data)
     await db.commit()
     return {"status": "OK", "data": room}
 
 
-@router.get("/{hotel_id}/rooms")
+@router.get("/rooms")
 async def get_rooms(
     db: DBDep,
-    hotel_id: int,
     date_from: date = Query(
         openapi_examples={"2026-11-20": {
             "summary": "Example date from", 
@@ -44,6 +43,7 @@ async def get_rooms(
         openapi_examples={"2026-11-30": {
             "summary": "Example date to", 
             "value": "2026-11-30"}}),
+    hotel_id: int | None = None,
 ):
     return await db.room.get_filtered_by_time(
         hotel_id=hotel_id,

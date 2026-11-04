@@ -10,6 +10,7 @@ from src.api.v1.auth import router as auth_router
 from src.api.v1.hotel import router as hotel_router
 from src.api.v1.room import router as room_router
 from src.api.v1.booking import router as booking_router
+from src.api.v1.facility import router as facility_router
 
 
 
@@ -19,6 +20,7 @@ app.include_router(auth_router)
 app.include_router(hotel_router)
 app.include_router(room_router)
 app.include_router(booking_router)
+app.include_router(facility_router)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)

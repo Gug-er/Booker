@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.db import BaseModel
+from src.db import Base
 
 
 
-class UserModel(BaseModel):
+class UserModel(Base):
     __tablename__ = "users"
 
     user_id: Mapped[int] = mapped_column(primary_key=True)

@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, ForeignKey
 
-from src.db import BaseModel
+from src.db import Base
 
 
 
-class RoomModel(BaseModel):
+class RoomModel(Base):
     __tablename__ = "rooms"
 
     room_id: Mapped[int] = mapped_column(primary_key=True)

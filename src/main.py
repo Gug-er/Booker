@@ -9,8 +9,8 @@ sys.path.append(str(Path(__file__).parent.parent))
 from src.api.v1.auth import router as auth_router
 from src.api.v1.hotel import router as hotel_router
 from src.api.v1.room import router as room_router
-from src.api.v1.booking import router as booking_router
 from src.api.v1.facility import router as facility_router
+from src.api.v1.booking import router as booking_router
 
 
 

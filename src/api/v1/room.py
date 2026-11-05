@@ -6,7 +6,27 @@ from src.api.deps.database import DBDep
 
 
 
-router = APIRouter(prefix="/hotels", tags=["rooms"])
+router = APIRouter(prefix="/hotel", tags=["rooms"])
+
+
+@router.get("/rooms")
+async def get_rooms(
+    db: DBDep,
+    date_from: date = Query(
+        openapi_examples={"2026-11-20": {
+            "summary": "Example date from", 
+            "value": "2026-11-20"}}),
+    date_to: date = Query(
+        openapi_examples={"2026-11-30": {
+            "summary": "Example date to", 
+            "value": "2026-11-30"}}),
+    hotel_id: int | None = None,
+):
+    return await db.room.get_filtered_by_time(
+        hotel_id=hotel_id,
+        date_from=date_from,
+        date_to=date_to
+    )
 
 
 @router.post("/{hotel_id}/rooms")
@@ -32,26 +52,6 @@ async def add_room(
     return {"status": "OK", "data": room}
 
 
-@router.get("/rooms")
-async def get_rooms(
-    db: DBDep,
-    date_from: date = Query(
-        openapi_examples={"2026-11-20": {
-            "summary": "Example date from", 
-            "value": "2026-11-20"}}),
-    date_to: date = Query(
-        openapi_examples={"2026-11-30": {
-            "summary": "Example date to", 
-            "value": "2026-11-30"}}),
-    hotel_id: int | None = None,
-):
-    return await db.room.get_filtered_by_time(
-        hotel_id=hotel_id,
-        date_from=date_from,
-        date_to=date_to
-    )
-
-
 @router.get("/{hotel_id}/rooms/{room_id}")
 async def get_room_by_id(
     db: DBDep,
@@ -63,6 +63,20 @@ async def get_room_by_id(
 
 @router.put("/{hotel_id}/rooms/{room_id}")
 async def edit_room(
+    db: DBDep,
+    hotel_id: int, 
+    room_id: int, 
+    room_data: RoomRequestAdd
+):
+    _room_data = RoomPatch(room_id=room_id, hotel_id=hotel_id, **room_data.model_dump(exclude_unset=True))
+    await db.room.edit(_room_data, room_id=room_id)
+    await db.commit()
+
+    return {"status": "OK"}
+
+
+@router.patch("/{hotel_id}/rooms/{room_id}")
+async def edit_room_partially(
     db: DBDep,
     hotel_id: int, 
     room_id: int, 

@@ -76,6 +76,7 @@ async def edit_room(
 ):
     _room_data = RoomPatch(room_id=room_id, hotel_id=hotel_id, **room_data.model_dump(exclude_unset=True))
     await db.room.edit(_room_data, room_id=room_id)
+    await db.room_facility.set_room_facilities(room_id=room_id, facility_ids=room_data.facility_ids)
     await db.commit()
 
     return {"status": "OK"}
@@ -88,8 +89,11 @@ async def edit_room_partially(
     room_id: int, 
     room_data: RoomRequestPatch
 ):
-    _room_data = RoomPatch(room_id=room_id, hotel_id=hotel_id, **room_data.model_dump(exclude_unset=True))
+    room_data_dict = room_data.model_dump(exclude_unset=True)
+    _room_data = RoomPatch(room_id=room_id, hotel_id=hotel_id, **room_data_dict)
     await db.room.edit(_room_data, room_id=room_id, hotel_id=hotel_id)
+    if "facility_ids" in room_data_dict:
+        await db.room_facility.set_room_facilities(room_id=room_id, facility_ids=room_data_dict["facility_ids"])
     await db.commit()
 
     return {"status": "OK"}

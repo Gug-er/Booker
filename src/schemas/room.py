@@ -28,6 +28,7 @@ class RoomRequestPatch(BaseModel):
     description: Optional[str] = None
     price: Optional[int] = None
     quantity: Optional[int] = None
+    facility_ids: list[int] = []
 
 
 class RoomAdd(BaseModel):
@@ -43,4 +44,4 @@ class RoomRequestAdd(BaseModel):
     description: Optional[str] = None
     price: int
     quantity: int
-    facility_ids: Optional[list[int]] = None
+    facility_ids: list[int] = []

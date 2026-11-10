@@ -64,7 +64,7 @@ async def get_room_by_id(
     hotel_id: int, 
     room_id: int
 ):
-    return await db.room.get_one_or_none(room_id=room_id, hotel_id=hotel_id)
+    return await db.room.get_one_or_none_with_rels(room_id=room_id, hotel_id=hotel_id)
 
 
 @router.put("/{hotel_id}/rooms/{room_id}")

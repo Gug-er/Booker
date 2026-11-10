@@ -43,3 +43,4 @@ class RoomRequestAdd(BaseModel):
     description: Optional[str] = None
     price: int
     quantity: int
+    facility_ids: Optional[list[int]] = None

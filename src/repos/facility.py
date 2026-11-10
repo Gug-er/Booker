@@ -1,4 +1,4 @@
-from sqlalchemy import delete, select
+from sqlalchemy import insert, select, delete
 
 from src.repos.base import BaseRepository
 from src.models.facility import FacilityModel, RoomFacilityModel

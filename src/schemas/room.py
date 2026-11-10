@@ -1,6 +1,8 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
+from src.schemas.facility import FacilitySchema
+
 
 
 class RoomSchema(BaseModel):
@@ -12,6 +14,10 @@ class RoomSchema(BaseModel):
     quantity: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class RoomWithRels(RoomSchema):
+    facilities: list[FacilitySchema]
 
 
 class RoomPatch(BaseModel):

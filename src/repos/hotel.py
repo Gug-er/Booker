@@ -5,14 +5,14 @@ from sqlalchemy import select, func
 from src.repos.base import BaseRepository
 from src.models.room import RoomModel
 from src.models.hotel import HotelModel
-from src.schemas.hotel import HotelSchema
+from src.repos.mappers.hotel import HotelDataMapper
 from src.repos.utils import room_ids_for_booking
 
 
 
 class HotelRepository(BaseRepository):
     model = HotelModel
-    schema = HotelSchema
+    mapper = HotelDataMapper
 
 
     async def get_filtered_by_time(
@@ -23,7 +23,7 @@ class HotelRepository(BaseRepository):
             name: str | None,
             limit: int, 
             offset: int
-        ) -> list[HotelSchema]:
+        ):
             room_ids_to_get = room_ids_for_booking(
                 date_from=date_from, 
                 date_to=date_to
@@ -48,4 +48,4 @@ class HotelRepository(BaseRepository):
             
             result = await self.session.execute(query)
 
-            return [HotelSchema.model_validate(hotel, from_attributes=True) for hotel in result.scalars().all()]
+            return [self.mapper.map_to_domain_entity(hotel) for hotel in result.scalars().all()]
